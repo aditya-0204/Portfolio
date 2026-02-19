@@ -123,7 +123,7 @@ export function Marquee() {
         });
 
         const cc = await (
-          await fetch("http://localhost:3000/codechef/aditya0203")
+          await fetch("https://portfolio-ae07.onrender.com/codechef/aditya0203")
         ).json();
 
         setStats({

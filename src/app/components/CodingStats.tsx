@@ -103,7 +103,7 @@ export default function CodingStats() {
 
         /* ---------- CODECHEF (YOUR API) ---------- */
         const ccRes = await fetch(
-          "http://localhost:3000/codechef/aditya0203"
+          "https://portfolio-ae07.onrender.com/codechef/aditya0203"
         );
         const ccData = await ccRes.json();
 
