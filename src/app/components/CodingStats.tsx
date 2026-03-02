@@ -73,56 +73,27 @@ export default function CodingStats() {
     codechef: null,
   });
 
+  /* ===============================
+     FETCH FROM YOUR BACKEND ONLY
+  =============================== */
+
   useEffect(() => {
     async function fetchStats() {
       try {
-        /* ---------- LEETCODE ---------- */
-        const lcRes = await fetch(
-          "https://leetcode-api-faisalshohag.vercel.app/error_2003"
+        const res = await fetch(
+          "https://portfolio-ae07.onrender.com/stats"
         );
-        const lcData = await lcRes.json();
-        const lcSolved = lcData.totalSolved || 0;
 
-        /* ---------- CODEFORCES ---------- */
-        const cfRes = await fetch(
-          "https://codeforces.com/api/user.status?handle=adityakumawat2003"
-        );
-        const cfData = await cfRes.json();
-
-        const solvedSet = new Set<string>();
-        cfData?.result?.forEach((sub: any) => {
-          if (sub.verdict === "OK") {
-            solvedSet.add(`${sub.problem.contestId}-${sub.problem.index}`);
-          }
-        });
-
-        const cfInfoRes = await fetch(
-          "https://codeforces.com/api/user.info?handles=adityakumawat2003"
-        );
-        const cfInfo = await cfInfoRes.json();
-
-        /* ---------- CODECHEF (YOUR API) ---------- */
-        const ccRes = await fetch(
-          "https://portfolio-ae07.onrender.com/codechef/aditya0203"
-        );
-        const ccData = await ccRes.json();
+        const data = await res.json();
 
         setStats({
           loading: false,
-          leetcode: lcSolved,
-          codeforces: {
-            solved: solvedSet.size,
-            rating: cfInfo?.result?.[0]?.rating || 0,
-            rank: cfInfo?.result?.[0]?.rank || "unrated",
-          },
-          codechef: {
-            stars: ccData?.stars || "-",
-            rating: Number(ccData?.rating || 0),
-            solved: Number(ccData?.problemsSolved || 0), // ⭐ FIXED
-          },
+          leetcode: data.leetcode,
+          codeforces: data.codeforces,
+          codechef: data.codechef,
         });
       } catch (err) {
-        console.error(err);
+        console.error("Stats failed:", err);
         setStats((s) => ({ ...s, loading: false }));
       }
     }
@@ -164,7 +135,6 @@ export default function CodingStats() {
       </p>
 
       <div className="grid md:grid-cols-3 gap-6">
-
         {/* ---------- LEETCODE ---------- */}
         <motion.a
           href="https://leetcode.com/u/error_2003/"
@@ -218,7 +188,6 @@ export default function CodingStats() {
             Rating: {stats.codechef?.rating}
           </p>
         </motion.a>
-
       </div>
     </div>
   );
