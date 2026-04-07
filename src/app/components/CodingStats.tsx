@@ -6,6 +6,7 @@ import {
   useSpring,
   useMotionValueEvent,
 } from "motion/react";
+import { shouldFetchLiveStats, statsApiUrl } from "../lib/stats-api";
 
 /* ---------------- TYPES ---------------- */
 
@@ -69,10 +70,8 @@ function AnimatedNumber({ value }: { value: number }) {
 /* ---------------- COMPONENT ---------------- */
 
 export default function CodingStats() {
-  const shouldFetchStats = import.meta.env.VITE_ENABLE_LIVE_STATS !== "false";
-
   const [stats, setStats] = useState<StatsType>({
-    loading: shouldFetchStats,
+    loading: shouldFetchLiveStats,
     leetcode: {
       solved: 300,
       contestRating: 1411,
@@ -86,9 +85,13 @@ export default function CodingStats() {
   =============================== */
 
   useEffect(() => {
+    if (!shouldFetchLiveStats) {
+      return;
+    }
+
     async function fetchStats() {
       try {
-        const res = await fetch("/api/stats");
+        const res = await fetch(statsApiUrl);
 
         if (!res.ok) {
           throw new Error(`Stats request failed with ${res.status}`);
@@ -109,7 +112,7 @@ export default function CodingStats() {
     }
 
     fetchStats();
-  }, [shouldFetchStats]);
+  }, []);
 
   if (stats.loading) {
     return (

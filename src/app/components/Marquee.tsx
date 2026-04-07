@@ -10,6 +10,7 @@ import leetcodeLogo from "../../assets/leetcode_img.png";
 import codeforcesLogo from "../../assets/codeforces_img.png";
 import codechefLogo from "../../assets/codechef_img.png";
 import { motion } from "motion/react";
+import { shouldFetchLiveStats, statsApiUrl } from "../lib/stats-api";
 
 const techStack = [
   "JavaScript",
@@ -97,8 +98,6 @@ function formatCodeChefStars(stars: string) {
 }
 
 export function Marquee() {
-  const shouldFetchStats = import.meta.env.VITE_ENABLE_LIVE_STATS !== "false";
-
   const [stats, setStats] = useState({
     leetRating: 1411,
     leetSolved: 300,
@@ -111,9 +110,13 @@ export function Marquee() {
   });
 
   useEffect(() => {
+    if (!shouldFetchLiveStats) {
+      return;
+    }
+
     async function fetchStats() {
       try {
-        const res = await fetch("/api/stats");
+        const res = await fetch(statsApiUrl);
 
         if (!res.ok) {
           throw new Error(`Stats request failed with ${res.status}`);
@@ -137,7 +140,7 @@ export function Marquee() {
     }
 
     fetchStats();
-  }, [shouldFetchStats]);
+  }, []);
 
   const total =
     stats.leetSolved + stats.cfSolved + stats.ccSolved;
