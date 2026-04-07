@@ -11,7 +11,10 @@ import {
 
 type StatsType = {
   loading: boolean;
-  leetcode: number;
+  leetcode: {
+    solved: number;
+    contestRating: number;
+  };
   codeforces: {
     solved: number;
     rating: number;
@@ -66,9 +69,14 @@ function AnimatedNumber({ value }: { value: number }) {
 /* ---------------- COMPONENT ---------------- */
 
 export default function CodingStats() {
+  const shouldFetchStats = import.meta.env.VITE_ENABLE_LIVE_STATS !== "false";
+
   const [stats, setStats] = useState<StatsType>({
-    loading: true,
-    leetcode: 0,
+    loading: shouldFetchStats,
+    leetcode: {
+      solved: 300,
+      contestRating: 1411,
+    },
     codeforces: null,
     codechef: null,
   });
@@ -80,9 +88,11 @@ export default function CodingStats() {
   useEffect(() => {
     async function fetchStats() {
       try {
-        const res = await fetch(
-          "https://portfolio-ae07.onrender.com/stats"
-        );
+        const res = await fetch("/api/stats");
+
+        if (!res.ok) {
+          throw new Error(`Stats request failed with ${res.status}`);
+        }
 
         const data = await res.json();
 
@@ -99,7 +109,7 @@ export default function CodingStats() {
     }
 
     fetchStats();
-  }, []);
+  }, [shouldFetchStats]);
 
   if (stats.loading) {
     return (
@@ -117,7 +127,7 @@ export default function CodingStats() {
   }
 
   const totalSolved =
-    stats.leetcode +
+    stats.leetcode.solved +
     (stats.codeforces?.solved || 0) +
     (stats.codechef?.solved || 0);
 
@@ -144,9 +154,12 @@ export default function CodingStats() {
         >
           <h3 className="text-orange-400 text-xl font-semibold">LeetCode</h3>
           <p className="text-5xl font-bold text-white mt-3">
-            <AnimatedNumber value={stats.leetcode} />
+            <AnimatedNumber value={stats.leetcode.solved} />
           </p>
           <p className="text-neutral-400">Problems Solved</p>
+          <p className="text-sm text-neutral-300 mt-3">
+            Contest Rating: {stats.leetcode.contestRating}
+          </p>
         </motion.a>
 
         {/* ---------- CODEFORCES ---------- */}

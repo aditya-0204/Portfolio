@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowUpRight, MapPin, Globe, Mail, X, Coffee, Clock, Zap, Layers, Cpu, Code, BookOpen, Award, Briefcase, Terminal, Server, Database } from "lucide-react";
+import { ArrowUpRight, MapPin, X, Coffee, Clock, Code, BookOpen, Award, Briefcase, Terminal } from "lucide-react";
 import { Link } from "react-scroll";
 
 // Resume Data Content
@@ -61,12 +61,7 @@ const resumeContent = {
                         <li>Improved load time by 42% (2.01s to 1.17s).</li>
                     </ul>
                 </div>
-                <div className="relative pl-4 border-l-2 border-neutral-800">
-                    <div className="absolute top-0 left-[-5px] w-2 h-2 bg-neutral-600 rounded-full" />
-                    <h5 className="text-white font-bold text-sm">Open Source & Problem Solving</h5>
-                    <div className="text-neutral-400 text-xs font-mono mb-1">Self-Directed • 2023 - Present</div>
-                    <p className="text-neutral-500 text-xs">Solved 300+ coding problems on LeetCode, CodeChef, and Codeforces.</p>
-                </div>
+                
             </div>
         </div>
     )
@@ -81,7 +76,7 @@ const resumeContent = {
             <div>
                 <h5 className="text-white font-bold text-sm mb-3">Frontend</h5>
                 <div className="flex flex-wrap gap-2">
-                    {["React.js", "Next.js", "Tailwind CSS", "Three.js", "HTML5/CSS3"].map(t => (
+                    {["React.js", "Next.js", "Tailwind CSS", "HTML5/CSS3"].map(t => (
                         <span key={t} className="px-3 py-1 bg-lime-400/10 text-lime-400 border border-lime-400/20 rounded text-xs font-mono">{t}</span>
                     ))}
                 </div>
@@ -105,50 +100,21 @@ const resumeContent = {
         </div>
     )
   },
-  impact: {
-    title: "Impact & Stats",
-    subtitle: "Quantifiable achievements.",
-    icon: <Zap className="text-lime-400" size={32} />,
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXRhJTIwdmlzdWFsaXphdGlvbnxlbnwxfHx8fDE3NzEyNzAxMjJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    content: (
-        <div className="grid grid-cols-2 gap-4">
-            <div className="bg-neutral-800/50 p-4 rounded-xl border border-neutral-800 text-center">
-                <div className="text-3xl font-bold text-white mb-1">42%</div>
-                <div className="text-neutral-500 text-xs">Faster Load Time</div>
-            </div>
-            <div className="bg-neutral-800/50 p-4 rounded-xl border border-neutral-800 text-center">
-                <div className="text-3xl font-bold text-white mb-1">71%</div>
-                <div className="text-neutral-500 text-xs">Request Reduction</div>
-            </div>
-            <div className="bg-neutral-800/50 p-4 rounded-xl border border-neutral-800 text-center">
-                <div className="text-3xl font-bold text-white mb-1">250+</div>
-                <div className="text-neutral-500 text-xs">Problems Solved</div>
-            </div>
-            <div className="bg-neutral-800/50 p-4 rounded-xl border border-neutral-800 text-center">
-                <div className="text-3xl font-bold text-white mb-1">8.33</div>
-                <div className="text-neutral-500 text-xs">Current CGPA</div>
-            </div>
-             <p className="col-span-2 text-xs text-neutral-400 text-center mt-2">
-                Consistently delivering optimized, high-performance code and solving complex algorithmic challenges.
-            </p>
-        </div>
-    )
-  }
 };
 
 export function BentoHero() {
   const [selectedFeature, setSelectedFeature] = useState(null);
 
   return (
-    <section id="home" className="min-h-screen p-4 md:p-8 pt-24 bg-neutral-950 flex items-center justify-center relative">
-      <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 h-full md:h-[800px]">
+    <section id="home" className="relative flex min-h-screen items-center justify-center bg-neutral-950 px-4 pb-24 pt-24 md:px-8">
+      <div className="grid h-full w-full max-w-7xl grid-cols-1 gap-4 md:h-[800px] md:grid-cols-4 md:grid-rows-3 md:gap-5">
         
         {/* Block 1: Main Intro - Large Square */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="md:col-span-2 md:row-span-2 bg-neutral-900 rounded-3xl p-8 flex flex-col justify-between border border-neutral-800 relative overflow-hidden group"
+          className="group relative flex min-h-[24rem] flex-col justify-between overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900 p-6 sm:p-8 md:col-span-2 md:row-span-2"
         >
           {/* Lime Glow */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-lime-400/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-lime-400/20 transition-all duration-500" />
@@ -158,14 +124,14 @@ export function BentoHero() {
               <span className="w-2 h-2 bg-lime-500 rounded-full animate-pulse" />
               <span className="text-neutral-400 text-sm font-medium tracking-wide">AVAILABLE FOR WORK</span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tighter">
+            <h1 className="text-4xl font-bold leading-tight tracking-tighter text-white sm:text-5xl md:text-7xl">
               Aditya<br />
               <span className="text-neutral-500">Kumawat.</span>
             </h1>
           </div>
           
           <div className="z-10">
-            <p className="text-neutral-400 text-lg max-w-md mb-6">
+            <p className="mb-6 max-w-md text-base text-neutral-400 sm:text-lg">
               I build high-performance web applications with modern tech stacks.
             </p>
             <Link 
@@ -184,7 +150,7 @@ export function BentoHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           onClick={() => setSelectedFeature('profile')}
-          className="md:col-span-1 md:row-span-2 relative rounded-3xl overflow-hidden border border-neutral-800 group cursor-pointer"
+          className="group relative min-h-[20rem] cursor-pointer overflow-hidden rounded-3xl border border-neutral-800 md:col-span-1 md:row-span-2"
         >
           <img 
             src="https://images.unsplash.com/photo-1580644043501-627f569f7e25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYW4lMjB3b3JraW5nJTIwaW4lMjBjYWZlJTIwYWVzdGhldGljJTIwZ3JhaW55fGVufDF8fHx8MTc2OTkyNzk2MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" 
@@ -210,7 +176,7 @@ export function BentoHero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             onClick={() => setSelectedFeature('experience')}
-            className="md:col-span-1 md:row-span-1 bg-lime-400 rounded-3xl p-6 flex flex-col justify-between border border-lime-500 relative overflow-hidden cursor-pointer group hover:bg-lime-500 transition-colors"
+            className="group relative flex min-h-[14rem] cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border border-lime-500 bg-lime-400 p-6 transition-colors hover:bg-lime-500 md:col-span-1 md:row-span-1"
         >
              <Briefcase className="text-black/10 w-32 h-32 absolute -bottom-8 -right-8" />
              <div className="relative z-10 flex justify-between items-start">
@@ -225,67 +191,26 @@ export function BentoHero() {
              </div>
         </motion.div>
 
-        {/* Block 4: Tech Stack or Abstract - Clickable (SKILLS) */}
-        <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            onClick={() => setSelectedFeature('tech')}
-            className="md:col-span-1 md:row-span-1 bg-neutral-900 rounded-3xl p-0 overflow-hidden border border-neutral-800 relative cursor-pointer group"
-        >
-             <img 
-                src="https://images.unsplash.com/photo-1749651950300-9054d02f893a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmFuZ2UlMjBhZXN0aGV0aWMlMjBhYnN0cmFjdCUyMG9iamVjdHxlbnwxfHx8fDE3Njk5Mjc5NjJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" 
-                className="w-full h-full object-cover opacity-80 grayscale mix-blend-overlay group-hover:scale-110 transition-transform duration-700"
-                alt="Abstract"
-             />
-             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                 <Code size={32} className="text-lime-400 mb-2"/>
-                 <span className="text-white font-bold tracking-widest uppercase">Tech Stack</span>
-             </div>
-        </motion.div>
-
-        {/* Block 5: Contact CTA - Wide Rectangle */}
-        <motion.div 
+        {/* Block 4: Tech Stack */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="md:col-span-2 md:row-span-1 bg-neutral-100 rounded-3xl p-8 flex items-center justify-between group hover:bg-lime-400 transition-colors duration-300 cursor-pointer"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          onClick={() => setSelectedFeature('tech')}
+          className="group relative flex min-h-[14rem] cursor-pointer items-center justify-center overflow-hidden rounded-3xl border border-lime-400/35 bg-neutral-900 p-6 transition-colors hover:border-lime-400/70 md:col-span-1 md:row-span-1"
         >
-           <div>
-               <h3 className="text-neutral-900 font-bold text-3xl transition-colors">Let's Talk</h3>
-               <p className="text-neutral-500 group-hover:text-black/70 transition-colors">Have an idea? I can help.</p>
-           </div>
-           <div className="bg-neutral-900 group-hover:bg-black p-4 rounded-full transition-colors">
-               <Mail className="text-white group-hover:text-lime-400 transition-colors" size={24} />
-           </div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(163,230,53,0.12),transparent_35%),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(0,0,0,0))]" />
+          <div className="relative z-10 flex flex-col items-center justify-center text-center">
+            <Code size={32} className="mb-3 text-lime-400" />
+            <p className="text-2xl font-bold tracking-[0.22em] text-white sm:text-3xl">
+              TECH STACK
+            </p>
+          </div>
+          <div className="absolute right-5 top-5 z-10 text-lime-400 opacity-0 transition-opacity group-hover:opacity-100">
+            <ArrowUpRight size={18} />
+          </div>
         </motion.div>
 
-         {/* Block 6: Socials / Numbers - Clickable (IMPACT) */}
-         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          onClick={() => setSelectedFeature('impact')}
-          className="md:col-span-2 md:row-span-1 bg-neutral-900 rounded-3xl p-8 border border-neutral-800 flex items-center justify-around cursor-pointer hover:border-lime-400/50 transition-colors group"
-        >
-            <div className="text-center group-hover:scale-110 transition-transform">
-                <div className="text-3xl font-bold text-white group-hover:text-lime-400 transition-colors">300+</div>
-                <div className="text-neutral-500 text-sm uppercase tracking-wider">Problems</div>
-            </div>
-            <div className="w-px h-12 bg-neutral-800" />
-            <div className="text-center group-hover:scale-110 transition-transform">
-                <div className="text-3xl font-bold text-white group-hover:text-lime-400 transition-colors">40%</div>
-                <div className="text-neutral-500 text-sm uppercase tracking-wider">Faster</div>
-            </div>
-             <div className="w-px h-12 bg-neutral-800" />
-            <div className="text-center group-hover:scale-110 transition-transform">
-                <div className="text-3xl font-bold text-white group-hover:text-lime-400 transition-colors">100%</div>
-                <div className="text-neutral-500 text-sm uppercase tracking-wider">Commitment</div>
-            </div>
-             <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                <ArrowUpRight size={16} className="text-lime-400" />
-            </div>
-        </motion.div>
       </div>
 
       {/* Modal Overlay */}
@@ -304,7 +229,7 @@ export function BentoHero() {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="bg-neutral-900 border border-neutral-800 w-full max-w-2xl rounded-3xl overflow-hidden relative z-10 shadow-2xl flex flex-col max-h-[90vh]"
+              className="relative z-10 flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900 shadow-2xl"
             >
               <button 
                 onClick={() => setSelectedFeature(null)}
@@ -313,7 +238,7 @@ export function BentoHero() {
                 <X size={20} />
               </button>
 
-              <div className="grid md:grid-cols-2 flex-grow overflow-auto">
+              <div className="grid flex-grow overflow-auto md:grid-cols-2">
                 <div className="h-48 md:h-full relative shrink-0">
                   <img 
                     src={resumeContent[selectedFeature].image} 
@@ -328,7 +253,7 @@ export function BentoHero() {
                   </div>
                 </div>
                 
-                <div className="p-8 flex flex-col">
+                <div className="flex flex-col p-6 sm:p-8">
                   <div className="hidden md:block mb-6">
                     <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center mb-4">
                         {resumeContent[selectedFeature].icon}

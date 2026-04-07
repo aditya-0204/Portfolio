@@ -6,6 +6,72 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 
+const USERNAMES = {
+  leetcode: "error_2003",
+  codeforces: "adityakumawat2003",
+  codechef: "aditya0203",
+};
+
+const FALLBACK_STATS = {
+  leetcode: {
+    solved: 300,
+    contestRating: 1411,
+  },
+  codeforces: {
+    solved: 0,
+    rating: 0,
+    rank: "unrated",
+  },
+  codechef: {
+    solved: 0,
+    rating: 0,
+    stars: "-",
+  },
+};
+
+function logFetchError(source, err) {
+  const status = err?.response?.status;
+  const statusText = err?.response?.statusText;
+  const code = err?.code;
+  const message = err?.message || "Unknown error";
+
+  console.log(
+    `${source} failed: ${message}` +
+      (code ? ` | code=${code}` : "") +
+      (status ? ` | status=${status}` : "") +
+      (statusText ? ` ${statusText}` : "")
+  );
+}
+
+function extractCodeChefSolvedCount($, html) {
+  let problemsSolved = 0;
+
+  $(".content .problem-solved").each((i, el) => {
+    const count = $(el).find("span").last().text().trim();
+    problemsSolved += Number(count || 0);
+  });
+
+  if (problemsSolved > 0) {
+    return problemsSolved;
+  }
+
+  const regexPatterns = [
+    /Total Problems Solved[\s\S]{0,80}?(\d[\d,]*)/i,
+    /Problems Solved[\s\S]{0,80}?(\d[\d,]*)/i,
+    /"totalProblemsSolved"\s*:\s*"?(\d+)"?/i,
+    /"problemsSolved"\s*:\s*"?(\d+)"?/i,
+  ];
+
+  for (const pattern of regexPatterns) {
+    const match = html.match(pattern);
+    if (match?.[1]) {
+      return Number(match[1].replace(/,/g, ""));
+    }
+  }
+
+  return 0;
+}
+
 /* =====================================================
    CODECHEF HELPER (Stable Version)
 ===================================================== */
@@ -24,23 +90,20 @@ async function fetchCodeChef(username) {
 
     const rating = $(".rating-number").first().text().trim();
     const stars = $(".rating").first().text().trim();
+    const problemsSolved = extractCodeChefSolvedCount($, data);
 
-    let problemsSolved = 0;
-
-    // Scrape total solved from profile
-    $(".content .problem-solved").each((i, el) => {
-      const count = $(el).find("span").last().text().trim();
-      problemsSolved += Number(count || 0);
-    });
+    if (!problemsSolved) {
+      console.log("CodeChef solved count not found in public profile markup");
+    }
 
     return {
       solved: problemsSolved,
-      rating: Number(rating || 0),
-      stars: stars || "-",
+      rating: Number(rating || FALLBACK_STATS.codechef.rating),
+      stars: stars || FALLBACK_STATS.codechef.stars,
     };
   } catch (err) {
-    console.log("CodeChef failed:", err.message);
-    return { solved: 0, rating: 0, stars: "-" };
+    logFetchError("CodeChef", err);
+    return { ...FALLBACK_STATS.codechef };
   }
 }
 
@@ -59,6 +122,21 @@ async function fetchLeetCode(username) {
                 count
               }
             }
+            profile {
+              ranking
+            }
+          }
+          userContestRanking(username: $username) {
+            rating
+            attendedContestsCount
+          }
+          userContestRankingHistory(username: $username) {
+            attended
+            rating
+            contest {
+              title
+              startTime
+            }
           }
         }
       `,
@@ -75,6 +153,15 @@ async function fetchLeetCode(username) {
 
     const stats =
       response.data?.data?.matchedUser?.submitStats?.acSubmissionNum || [];
+    const currentContestRating = response.data?.data?.userContestRanking?.rating;
+    const rankingHistory =
+      response.data?.data?.userContestRankingHistory?.filter(
+        (entry) => entry?.attended && typeof entry?.rating === "number"
+      ) || [];
+    const latestHistoryRating =
+      rankingHistory.length > 0
+        ? rankingHistory[rankingHistory.length - 1]?.rating
+        : null;
 
     let totalSolved = 0;
 
@@ -84,10 +171,17 @@ async function fetchLeetCode(username) {
       }
     });
 
-    return totalSolved;
+    return {
+      solved: totalSolved || FALLBACK_STATS.leetcode.solved,
+      contestRating: Math.round(
+        currentContestRating ||
+          latestHistoryRating ||
+          FALLBACK_STATS.leetcode.contestRating
+      ),
+    };
   } catch (err) {
-    console.log("LeetCode failed:", err.message);
-    return 0;
+    logFetchError("LeetCode", err);
+    return { ...FALLBACK_STATS.leetcode };
   }
 }
 
@@ -135,7 +229,7 @@ async function fetchCodeforces(username) {
       rank: info.rank || "unrated",
     };
   } catch (err) {
-    console.log("Codeforces failed:", err.message);
+    logFetchError("Codeforces", err);
     return { solved: 0, rating: 0, rank: "unrated" };
   }
 }
@@ -156,15 +250,11 @@ app.get("/stats", async (req, res) => {
       return res.json(cache);
     }
 
-    const lcUser = "error_2003";
-    const cfUser = "adityakumawat2003";
-    const ccUser = "aditya0203";
-
     const [leetcode, codeforces, codechef] =
       await Promise.all([
-        fetchLeetCode(lcUser),
-        fetchCodeforces(cfUser),
-        fetchCodeChef(ccUser),
+        fetchLeetCode(USERNAMES.leetcode),
+        fetchCodeforces(USERNAMES.codeforces),
+        fetchCodeChef(USERNAMES.codechef),
       ]);
 
     const response = {
@@ -180,6 +270,38 @@ app.get("/stats", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch stats" });
   }
+});
+
+app.get("/api/stats", async (req, res) => {
+  try {
+    if (cache && Date.now() - lastFetch < CACHE_TIME) {
+      return res.json(cache);
+    }
+
+    const [leetcode, codeforces, codechef] =
+      await Promise.all([
+        fetchLeetCode(USERNAMES.leetcode),
+        fetchCodeforces(USERNAMES.codeforces),
+        fetchCodeChef(USERNAMES.codechef),
+      ]);
+
+    const response = {
+      leetcode,
+      codeforces,
+      codechef,
+    };
+
+    cache = response;
+    lastFetch = Date.now();
+
+    res.json(response);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch stats" });
+  }
+});
+
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
 });
 
 /* =====================================================

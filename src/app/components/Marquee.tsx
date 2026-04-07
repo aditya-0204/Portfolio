@@ -87,80 +87,76 @@ function capitalize(text: string) {
   return text ? text.charAt(0).toUpperCase() + text.slice(1) : "-";
 }
 
+function formatCodeChefStars(stars: string) {
+  const normalized = (stars || "-").replace("★", "").trim();
+  if (!normalized || normalized === "-") {
+    return "Unrated";
+  }
+
+  return `${normalized} Star`;
+}
+
 export function Marquee() {
+  const shouldFetchStats = import.meta.env.VITE_ENABLE_LIVE_STATS !== "false";
+
   const [stats, setStats] = useState({
-    leetRating: 0,
-    leetSolved: 0,
+    leetRating: 1411,
+    leetSolved: 300,
     cfRating: 0,
-    cfRank: "",
+    cfRank: "unrated",
     cfSolved: 0,
     ccRating: 0,
-    ccSolved: 0,
+    ccSolved: 56,
+    ccStars: "-",
   });
 
   useEffect(() => {
     async function fetchStats() {
       try {
-        const lc = await (
-          await fetch(
-            "https://leetcode-api-faisalshohag.vercel.app/error_2003"
-          )
-        ).json();
+        const res = await fetch("/api/stats");
 
-        const [cfInfoRes, cfStatusRes] = await Promise.all([
-          fetch("https://codeforces.com/api/user.info?handles=adityakumawat2003"),
-          fetch("https://codeforces.com/api/user.status?handle=adityakumawat2003"),
-        ]);
+        if (!res.ok) {
+          throw new Error(`Stats request failed with ${res.status}`);
+        }
 
-        const cfInfo = await cfInfoRes.json();
-        const cfStatus = await cfStatusRes.json();
-
-        const solvedSet = new Set<string>();
-        cfStatus?.result?.forEach((sub: any) => {
-          if (sub.verdict === "OK") {
-            solvedSet.add(`${sub.problem.contestId}-${sub.problem.index}`);
-          }
-        });
-
-        const cc = await (
-          await fetch("https://portfolio-ae07.onrender.com/codechef/aditya0203")
-        ).json();
+        const data = await res.json();
 
         setStats({
-          leetRating: Number(Math.round(lc.contestRating || 1411)),
-          leetSolved: lc.totalSolved || 0,
-          cfRating: cfInfo?.result?.[0]?.rating || 0,
-          cfRank: cfInfo?.result?.[0]?.rank || "",
-          cfSolved: solvedSet.size,
-          ccRating: Number(cc.rating || 0),
-          ccSolved: Number(cc.problemsSolved && 56),
+          leetRating: Number(data.leetcode?.contestRating || 1411),
+          leetSolved: Number(data.leetcode?.solved || 300),
+          cfRating: Number(data.codeforces?.rating || 0),
+          cfRank: data.codeforces?.rank || "unrated",
+          cfSolved: Number(data.codeforces?.solved || 0),
+          ccRating: Number(data.codechef?.rating || 0),
+          ccSolved: Number(data.codechef?.solved || 56),
+          ccStars: data.codechef?.stars || "-",
         });
-      } catch {
-        console.log("api error");
+      } catch (error) {
+        console.log("api error", error);
       }
     }
 
     fetchStats();
-  }, []);
+  }, [shouldFetchStats]);
 
   const total =
     stats.leetSolved + stats.cfSolved + stats.ccSolved;
 
     return (
-      <section className="py-28 bg-black">
-      <div className="max-w-7xl mx-auto px-4 mb-20">
-        <div className="flex justify-between items-end mb-14">
+      <section className="bg-black py-20 sm:py-24 lg:py-28">
+      <div className="mx-auto mb-20 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-14 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <h2 className="text-5xl font-bold text-white tracking-tight mt-10">
+            <h2 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
               Programming Dashboard
             </h2>
-            <p className="text-neutral-400 mt-2 text-lg">
+            <p className="mt-2 text-base text-neutral-400 sm:text-lg">
               Problem solving metrics across platforms.
             </p>
           </div>
 
-          <div className="text-right">
-            <p className="text-5xl font-bold text-white">{total}+</p>
+          <div className="text-left lg:text-right">
+            <p className="text-4xl font-bold text-white sm:text-5xl">{total}+</p>
             <p className="text-xs text-neutral-500 uppercase tracking-[0.2em]">
               Total DSA Problems
             </p>
@@ -168,7 +164,7 @@ export function Marquee() {
         </div>
 
         {/* CARDS */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
 
           {/* CARD TEMPLATE */}
           {[
@@ -195,7 +191,7 @@ export function Marquee() {
               logo: codechefLogo,
               rating: stats.ccRating,
               solved: stats.ccSolved,
-              subtitle: "Current Rating",
+              subtitle: formatCodeChefStars(stats.ccStars),
               color: "text-yellow-400",
               link: "https://www.codechef.com/users/aditya0203",
             },

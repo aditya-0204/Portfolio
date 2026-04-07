@@ -1,8 +1,7 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Link } from "react-scroll";
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "motion/react";
-import { Home, Map, Layers, Mail, Copy, Check } from "lucide-react";
-import { toast } from "sonner";
+import { motion, useMotionValue, useSpring } from "motion/react";
+import { Home, Map, Layers, Mail } from "lucide-react";
 
 // Navigation Items - Corrected Order: Home -> Journey -> Projects -> Contact
 const navItems = [
@@ -50,9 +49,8 @@ function MagneticItem({ children }: { children: React.ReactNode }) {
 
 export function Navbar() {
   return (
-    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4">
-      {/* Main Navigation */}
-      <nav className="bg-neutral-900/90 backdrop-blur-2xl border border-neutral-800/50 rounded-full p-2 px-6 shadow-2xl flex items-center gap-2 ring-1 ring-white/10">
+    <div className="fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-4 px-4 sm:bottom-6">
+      <nav className="flex items-center gap-2 rounded-full border border-neutral-800/50 bg-neutral-900/90 p-2 px-3 shadow-2xl ring-1 ring-white/10 backdrop-blur-2xl sm:px-5">
         <div className="flex items-center gap-1">
             {navItems.map((item) => (
             <MagneticItem key={item.name}>
@@ -62,13 +60,12 @@ export function Navbar() {
                 spy={true}
                 offset={-100}
                 activeClass="bg-white text-black"
-                className="w-12 h-12 flex items-center justify-center rounded-full text-neutral-400 hover:bg-neutral-800 hover:text-white transition-colors cursor-pointer relative group"
+                className="group relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white sm:h-12 sm:w-12"
                 >
                 {item.icon}
-                {/* Tooltip */}
-                <span className="absolute -top-14 left-1/2 -translate-x-1/2 bg-neutral-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity border border-neutral-800 pointer-events-none whitespace-nowrap shadow-xl">
+                <span className="pointer-events-none absolute -top-14 left-1/2 hidden -translate-x-1/2 whitespace-nowrap rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-1.5 text-xs font-medium text-white opacity-0 shadow-xl transition-opacity group-hover:opacity-100 sm:block">
                     {item.name}
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-neutral-900 border-r border-b border-neutral-800 rotate-45" />
+                    <div className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-b border-r border-neutral-800 bg-neutral-900" />
                 </span>
                 </Link>
             </MagneticItem>

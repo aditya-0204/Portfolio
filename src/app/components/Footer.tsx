@@ -1,5 +1,8 @@
-import { Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import { Link } from "react-scroll";
+
+const gmailComposeUrl =
+  "https://mail.google.com/mail/?view=cm&fs=1&to=adityakumawat2003@gmail.com";
 
 export function Footer() {
   return (
@@ -27,7 +30,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="mailto:adityakumawat2003@gmail.com" className="text-neutral-400 hover:text-lime-400 flex items-center gap-2 transition-colors text-sm">
+                <a href={gmailComposeUrl} target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-lime-400 flex items-center gap-2 transition-colors text-sm">
                   <Mail size={16} /> Email
                 </a>
               </li>
@@ -60,7 +63,7 @@ export function Footer() {
               </span>
               <span className="text-neutral-400 text-sm">Open to Opportunities</span>
             </div>
-            <p className="text-neutral-500 text-xs mt-4">
+            <p className="mt-4 text-xs text-neutral-500">
               Based in Chennai, India.<br />
               Remote friendly.
             </p>
