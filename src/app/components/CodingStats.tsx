@@ -73,7 +73,7 @@ export default function CodingStats() {
   const [stats, setStats] = useState<StatsType>({
     loading: shouldFetchLiveStats,
     leetcode: {
-      solved: 300,
+      solved: 0,
       contestRating: 0,
     },
     codeforces: null,

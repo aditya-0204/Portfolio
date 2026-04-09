@@ -100,12 +100,12 @@ function formatCodeChefStars(stars: string) {
 export function Marquee() {
   const [stats, setStats] = useState({
     leetRating: 0,
-    leetSolved: 300,
+    leetSolved: 0,
     cfRating: 0,
     cfRank: "unrated",
     cfSolved: 0,
     ccRating: 0,
-    ccSolved: 56,
+    ccSolved: 0,
     ccStars: "-",
   });
 
@@ -126,12 +126,12 @@ export function Marquee() {
 
         setStats({
           leetRating: Number(data.leetcode?.contestRating || 0),
-          leetSolved: Number(data.leetcode?.solved || 300),
+          leetSolved: Number(data.leetcode?.solved || 0),
           cfRating: Number(data.codeforces?.rating || 0),
           cfRank: data.codeforces?.rank || "unrated",
           cfSolved: Number(data.codeforces?.solved || 0),
           ccRating: Number(data.codechef?.rating || 0),
-          ccSolved: Number(data.codechef?.solved || 56),
+          ccSolved: Number(data.codechef?.solved || 0),
           ccStars: data.codechef?.stars || "-",
         });
       } catch (error) {
