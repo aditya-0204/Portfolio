@@ -10,7 +10,7 @@ const USERNAMES = {
 const FALLBACK_STATS = {
   leetcode: {
     solved: 300,
-    contestRating: 1411,
+    contestRating: "unrated",
   },
   codeforces: {
     solved: 0,

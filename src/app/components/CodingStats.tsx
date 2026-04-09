@@ -74,7 +74,7 @@ export default function CodingStats() {
     loading: shouldFetchLiveStats,
     leetcode: {
       solved: 300,
-      contestRating: 1411,
+      contestRating: 0,
     },
     codeforces: null,
     codechef: null,

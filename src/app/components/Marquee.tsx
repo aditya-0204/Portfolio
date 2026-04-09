@@ -99,7 +99,7 @@ function formatCodeChefStars(stars: string) {
 
 export function Marquee() {
   const [stats, setStats] = useState({
-    leetRating: 1411,
+    leetRating: 0,
     leetSolved: 300,
     cfRating: 0,
     cfRank: "unrated",
@@ -125,7 +125,7 @@ export function Marquee() {
         const data = await res.json();
 
         setStats({
-          leetRating: Number(data.leetcode?.contestRating || 1411),
+          leetRating: Number(data.leetcode?.contestRating || 0),
           leetSolved: Number(data.leetcode?.solved || 300),
           cfRating: Number(data.codeforces?.rating || 0),
           cfRank: data.codeforces?.rank || "unrated",
