@@ -36,7 +36,7 @@ const projects = [
     image: smartDocImg,
     color: "#0a0a0a", // neutral-950
     tech: ["AWS Lambda", "DynamoDB", "EventBridge", "Google OAuth"],
-    link: "https://github.com/aditya-0204",
+    link: "https://docsmart2025.vercel.app/",
     stats: "70+ expiry alerts delivered with modular Lambda scheduling",
     highlights: [
       "Deployed 3 modular AWS Lambda functions for document intake, notification delivery, and expiry reminder processing.",
@@ -51,7 +51,7 @@ const projects = [
     image: skillSwapImg,
     color: "#171717", // neutral-900
     tech: ["React", "Tailwind CSS", "Firebase", "Faceted Search"],
-    link: "https://github.com/aditya-0204",
+    link: "https://skillbarter-three.vercel.app/",
     stats: "Peer-to-peer skill exchange with ratings and coin-based incentives",
     highlights: [
       "Built a peer-to-peer learning flow that lets students teach and learn through dedicated sessions.",
