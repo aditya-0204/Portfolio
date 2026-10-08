@@ -15,7 +15,7 @@ const resumeContent = {
         <div>
           <h4 className="text-white font-bold mb-2 flex items-center gap-2"><Coffee size={18} className="text-lime-400"/> Bio</h4>
           <p className="text-neutral-400 text-sm leading-relaxed">
-            I'm a computer science student passionate about building scalable web applications and optimizing performance. I don't just write code; I engineer solutions that reduce load times and enhance user experience.
+            I'm a computer science student passionate about building scalable web applications and optimizing performance. I engineer solutions that reduce load times and enhance user experience.
           </p>
         </div>
         <div>
@@ -153,7 +153,7 @@ export function BentoHero() {
           className="group relative min-h-[20rem] cursor-pointer overflow-hidden rounded-3xl border border-neutral-800 md:col-span-1 md:row-span-2"
         >
           <img 
-            src="https://images.unsplash.com/photo-1580644043501-627f569f7e25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYW4lMjB3b3JraW5nJTIwaW4lMjBjYWZlJTIwYWVzdGhldGljJTIwZ3JhaW55fGVufDF8fHx8MTc2OTkyNzk2MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" 
+            src="src\assets\Profile.jpg" 
             alt="Profile" 
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
