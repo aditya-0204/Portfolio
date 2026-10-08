@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, MapPin, X, Coffee, Clock, Code, BookOpen, Award, Briefcase, Terminal } from "lucide-react";
 import { Link } from "react-scroll";
+import Profile from "../../assets/Profile.jpg";
 
 // Resume Data Content
 const resumeContent = {
@@ -153,7 +154,7 @@ export function BentoHero() {
           className="group relative min-h-[20rem] cursor-pointer overflow-hidden rounded-3xl border border-neutral-800 md:col-span-1 md:row-span-2"
         >
           <img 
-            src="src\assets\Profile.jpg" 
+            src={Profile} 
             alt="Profile" 
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
