@@ -13,5 +13,5 @@ jobs:
       - name: Ping Render URL
         # REPLACE the URL below with your actual Render backend URL
         run: |
-          curl -s https://portfolio-ae07.onrender.com/api/stats > /dev/null
+          curl -s https://portfolio-79rg.onrender.com/api/stats > /dev/null
           echo "Ping sent successfully!"
