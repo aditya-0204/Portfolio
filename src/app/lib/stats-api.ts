@@ -1,4 +1,4 @@
-const rawApiBaseUrl = import.meta.env.VITE_STATS_API_URL?.trim() || "";
+const rawApiBaseUrl = import.meta.env.VITE_STATS_API_URL?.trim() || "https://portfolio-79rg.onrender.com";
 
 const normalizedApiBaseUrl = rawApiBaseUrl.endsWith("/")
   ? rawApiBaseUrl.slice(0, -1)
