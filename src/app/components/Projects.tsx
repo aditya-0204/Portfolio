@@ -24,9 +24,10 @@ const projects = [
     link: "https://github.com/aditya-0204/FlowShield",
     stats: "3-layer AES-256-GCM onion flow with 1.5s heartbeat chaff traffic",
     highlights: [
-      "Built a 6-stage routing pipeline with synchronized reveal gating across sender, relays, and receiver.",
-      "Implemented LSB PNG steganography plus automated extraction and message reconstruction at the receiver node.",
-      "Added JSONL traffic logging and a filesystem-backed relay queue to monitor real and dummy traffic in real time.",
+      "• Designed and built a multi-hop onion routing network utilizing 3-layer AES-256-GCM encryption and LSB PNG steganography to obfuscate payloads and traffic patterns",
+      "• Integrated a Node.js/Express control plane with a native C++20 engine that asynchronously consumes staged payloads for cryptographic processing and relay generation.",
+      "• Added Traffic Flow Confidentiality (TFC) via 1.5s heartbeat chaff generation and supported dual delivery paths through direct HTTP forwarding and an asynchronous file-broker workflow",
+      "• Developed an observability dashboard reconstructing routing state transitions from JSONL event logs and visualizing encryption, steganography, delivery, and recovery stages in real time."
     ],
   },
   {
@@ -35,13 +36,14 @@ const projects = [
     description: "A serverless document reminder system that tracks expiry dates and triggers scheduled alerts through AWS services with secure credential handling and OAuth-based access control.",
     image: smartDocImg,
     color: "#0a0a0a", // neutral-950
-    tech: ["AWS Lambda", "DynamoDB", "EventBridge", "Google OAuth"],
+    tech: ["AWS Lambda", "DynamoDB", "EventBridge", "Google OAuth, Grafana, K6(Load Testing)"],
     link: "https://docsmart2025.vercel.app/",
     stats: "70+ expiry alerts delivered with modular Lambda scheduling",
     highlights: [
-      "Deployed 3 modular AWS Lambda functions for document intake, notification delivery, and expiry reminder processing.",
-      "Configured EventBridge schedules for reminders at 30, 15, 7, 3, and 1 days before expiry.",
-      "Tested the system with 15+ official documents while storing metadata in DynamoDB and credentials in Secrets Manager.",
+      "• Built a serverless document-expiry tracker on AWS (API Gateway, Lambda, DynamoDB) where EventBridge scheduled rules automatically trigger expiry checks and email alerts for documents about to expire.",
+      "• Re-architected the serverless system into Node.js/Express with RabbitMQ and MongoDB, moving OCR and notifications off the request path.",
+      "• Validated performance by load-testing with k6 (100 virtual users, 25.8k requests): 97 req/s average, 298 req/s peak, 0% errors and 100 ms median latency, tuned with RabbitMQ prefetch and Mongoose connection pooling.",
+      "• Built staged expiry alerts at 30, 15, 7, 3 and 1 days with atomic deduplication to prevent duplicate notifications."
     ]
   },
   {
@@ -54,9 +56,9 @@ const projects = [
     link: "https://skillbarter-three.vercel.app/",
     stats: "Peer-to-peer skill exchange with ratings and coin-based incentives",
     highlights: [
-      "Built a peer-to-peer learning flow that lets students teach and learn through dedicated sessions.",
-      "Included a 5-star rating system to build trust and surface strong learning partners.",
-      "Added a session award system while keeping the platform fully zero monetary transaction based.",
+      "• Architected an end-to-end peer barter platform managing a 6-stage session state machine.",
+      "• Enforced business logic via an Express trust boundary verifying Firebase ID tokens, using idempotent Firestore transactions to execute atomic coin payouts and prevent double-spending.",
+      "• Separated private user balances from public skill profiles using a dual-tier NoSQL data model, with Firestore Security Rules preventing unauthorized client-side mutations.",
     ]
   },
 ];
